@@ -19,16 +19,16 @@ end
 MomentTensor() = MomentTensor(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
 
 
-const rtf_sign_from_xyz = [:z => (:r, +1),
-                           :y => (:t, -1),
-                           :x => (:f, +1)]
-ss(a::Symbol, b::Symbol) = symbol(string(a)*string(b))
+const _rtf_sign_from_xyz = [:z => (:r, +1),
+                            :y => (:t, -1),
+                            :x => (:f, +1)]
+_ss(a::Symbol, b::Symbol) = symbol(string(a)*string(b))
 for xyz1 in (:x, :y, :z), xyz2 in (:x, :y, :z)
-    _xyz = ss(sort([xyz1, xyz2])...)
-    @eval $(ss(xyz1, xyz2))(m::MomentTensor) = m.$_xyz
-    (rtf1, sign1) = rtf_sign_from_xyz[xyz1]
-    (rtf2, sign2) = rtf_sign_from_xyz[xyz2]
-    @eval $(ss(rtf1, rtf2))(m::MomentTensor) = $sign1*$sign2*m.$_xyz
+    _el = _ss(sort([xyz1, xyz2])...)
+    @eval $(_ss(xyz1, xyz2))(m::MomentTensor) = m.$_el
+    (rtf1, sign1) = _rtf_sign_from_xyz[xyz1]
+    (rtf2, sign2) = _rtf_sign_from_xyz[xyz2]
+    @eval $(_ss(rtf1, rtf2))(m::MomentTensor) = $sign1*$sign2*m.$_el
 end
 
 
