@@ -1,6 +1,5 @@
 module Eq
 
-
 type Error <: Exception
     msg::String
 end
@@ -37,30 +36,26 @@ Base.show(io::IO, x::MomentTensor) = Base.print(io, "xx:$(xx(x))\tyy:$(yy(x))\tz
 
 
 for op in (:+, :-)
-    @eval begin
-        ($op)(a::MomentTensor, b::MomentTensor) = MomentTensor($op(xx(a),
-                                                                   xx(b)),
-                                                               $op(yy(a),
-                                                                   yy(b)),
-                                                               $op(zz(a),
-                                                                   zz(b)),
-                                                               $op(xy(a),
-                                                                   xy(b)),
-                                                               $op(xz(a),
-                                                                   xz(b)),
-                                                               $op(yz(a),
-                                                                   yz(b)))
-    end
+    @eval ($op)(a::MomentTensor, b::MomentTensor) = MomentTensor($op(xx(a),
+                                                                     xx(b)),
+                                                                 $op(yy(a),
+                                                                     yy(b)),
+                                                                 $op(zz(a),
+                                                                     zz(b)),
+                                                                 $op(xy(a),
+                                                                     xy(b)),
+                                                                 $op(xz(a),
+                                                                     xz(b)),
+                                                                 $op(yz(a),
+                                                                     yz(b)))
 end
 for op in (:*, :/)
-    @eval begin
-        ($op)(m::MomentTensor, a::Number) = MomentTensor($op(xx(m), a),
-                                                         $op(yy(m), a),
-                                                         $op(zz(m), a),
-                                                         $op(xy(m), a),
-                                                         $op(xz(m), a),
-                                                         $op(yz(m), a))
-    end
+    @eval ($op)(m::MomentTensor, a::Number) = MomentTensor($op(xx(m), a),
+                                                           $op(yy(m), a),
+                                                           $op(zz(m), a),
+                                                           $op(xy(m), a),
+                                                           $op(xz(m), a),
+                                                           $op(yz(m), a))
 end
 *(a::Number, m::MomentTensor) =*(m, a)
 
@@ -71,4 +66,5 @@ xyz(m::MomentTensor) = [xx(m) xy(m) xz(m)
 rtf(m::MomentTensor) = [rr(m) rt(m) rf(m)
                         tr(m) tt(m) tf(m)
                         fr(m) ft(m) ff(m)]
+
 end
