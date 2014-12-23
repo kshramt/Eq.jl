@@ -11,9 +11,9 @@ end
 MomentTensor() = MomentTensor(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
 
 
-const _rtf_sign_from_xyz = [:z => (:r, +1),
-                            :y => (:t, -1),
-                            :x => (:f, +1)]
+const _rtf_sign_from_xyz = Dict(:z => (:r, +1),
+                                :y => (:t, -1),
+                                :x => (:f, +1))
 _ss(a::Symbol, b::Symbol) = symbol(string(a)*string(b))
 for xyz1 in (:x, :y, :z), xyz2 in (:x, :y, :z)
     _el = _ss(sort([xyz1, xyz2])...)
