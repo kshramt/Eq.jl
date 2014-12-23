@@ -20,7 +20,7 @@ for xyz1 in (:x, :y, :z), xyz2 in (:x, :y, :z)
     @eval $(_ss(xyz1, xyz2))(m::MomentTensor) = m.$_el
     (rtf1, sign1) = _rtf_sign_from_xyz[xyz1]
     (rtf2, sign2) = _rtf_sign_from_xyz[xyz2]
-    @eval $(_ss(rtf1, rtf2))(m::MomentTensor) = $sign1*$sign2*m.$_el
+    @eval $(_ss(rtf1, rtf2))(m::MomentTensor) = $(sign1*sign2)*m.$_el
 end
 
 
