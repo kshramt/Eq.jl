@@ -1,13 +1,5 @@
 module Eq
 
-type Error <: Exception
-    msg::String
-end
-error(s::String) = throw(Error(s))
-error(s...) = error(string(s...))
-Base.showerror(io::IO, e::Error) = print(io, e.msg)
-
-
 immutable MomentTensor
     xx::Number
     yy::Number
