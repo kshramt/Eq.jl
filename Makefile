@@ -6,12 +6,13 @@
 export SHELL := /bin/bash
 export SHELLOPTS := pipefail:errexit:nounset:noclobber
 
+JULIA := julia
+
 # Tasks
 .PHONY: all check
 all: ;
 check:
-	cd test
-	julia run.jl
+	$(JULIA) test/runtests.jl
 
 # Files
 
