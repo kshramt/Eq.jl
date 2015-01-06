@@ -7,8 +7,9 @@ export SHELL := /bin/bash
 export SHELLOPTS := pipefail:errexit:nounset:noclobber
 
 # Tasks
-.PHONY: all test
-test:
+.PHONY: all check
+all: ;
+check:
 	cd test
 	julia run.jl
 
