@@ -1,12 +1,12 @@
 module Eq
 
-immutable MomentTensor
-    xx::Number
-    yy::Number
-    zz::Number
-    xy::Number
-    xz::Number
-    yz::Number
+immutable MomentTensor{T}
+    xx::T
+    yy::T
+    zz::T
+    xy::T
+    xz::T
+    yz::T
 end
 MomentTensor() = MomentTensor(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
 
@@ -17,10 +17,10 @@ const _rtf_sign_from_xyz = Dict(:z => (:r, +1),
 _ss(a::Symbol, b::Symbol) = symbol(string(a)*string(b))
 for xyz1 in (:x, :y, :z), xyz2 in (:x, :y, :z)
     _el = _ss(sort([xyz1, xyz2])...)
-    @eval $(_ss(xyz1, xyz2))(m::MomentTensor) = m.$_el
+    @eval $(_ss(xyz1, xyz2)){T}(m::MomentTensor{T}) = m.$_el
     (rtf1, sign1) = _rtf_sign_from_xyz[xyz1]
     (rtf2, sign2) = _rtf_sign_from_xyz[xyz2]
-    @eval $(_ss(rtf1, rtf2))(m::MomentTensor) = $(sign1*sign2)*m.$_el
+    @eval $(_ss(rtf1, rtf2)){T}(m::MomentTensor{T}) = $(sign1*sign2)*m.$_el
 end
 
 
@@ -52,11 +52,13 @@ end
 *(a::Number, m::MomentTensor) =*(m, a)
 
 
-xyz(m::MomentTensor) = [xx(m) xy(m) xz(m)
-                        yx(m) yy(m) yz(m)
-                        zx(m) zy(m) zz(m)]
-rtf(m::MomentTensor) = [rr(m) rt(m) rf(m)
-                        tr(m) tt(m) tf(m)
-                        fr(m) ft(m) ff(m)]
+xyz{T}(m::MomentTensor{T}) =
+    [xx(m) xy(m) xz(m)
+     yx(m) yy(m) yz(m)
+     zx(m) zy(m) zz(m)]
+rtf{T}(m::MomentTensor{T}) =
+    [rr(m) rt(m) rf(m)
+     tr(m) tt(m) tf(m)
+     fr(m) ft(m) ff(m)]
 
 end
