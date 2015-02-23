@@ -61,4 +61,32 @@ rtf{T}(m::MomentTensor{T}) =
      tr(m) tt(m) tf(m)
      fr(m) ft(m) ff(m)]
 
+
+function fixup_general_elastic_tensor!{T}(c::Array{T, 4})
+    for l in 1:3, k in 1:3, j in 1:3, i in 1:3
+        c_ijkl = c[i, j, k, l]
+        c[j, i, k, l] = c_ijkl
+        c[i, j, l, k] = c_ijkl
+        c[k, l, i, j] = c_ijkl
+    end
+    c
+end
+
+
+function is_valid_general_elastic_tensor{T}(c::Array{T, 4})
+    for l in 1:3, k in 1:3, j in 1:3, i in 1:3
+        c_ijkl = c[i, j, k, l]
+        (
+         c_ijkl == c[k, l, i, j] &&
+         c_ijkl == c[i, j, l, k] &&
+         c_ijkl == c[l, k, i, j] &&
+         c_ijkl == c[j, i, k, l] &&
+         c_ijkl == c[k, l, j, i] &&
+         c_ijkl == c[j, i, l, k] &&
+         c_ijkl == c[l, k, j, i]
+        ) || return false
+    end
+    true
+end
+
 end

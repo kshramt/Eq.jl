@@ -12,3 +12,10 @@ let
                                -6 +2 -4
                                +5 -4 +1]
 end
+
+
+let
+    for _ in 1:10
+        @test Eq.is_valid_general_elastic_tensor(Eq.fixup_general_elastic_tensor!(rand(3, 3, 3, 3) + 0.1))
+    end
+end
