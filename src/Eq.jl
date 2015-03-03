@@ -62,7 +62,7 @@ rtf{T}(m::MomentTensor{T}) =
      fr(m) ft(m) ff(m)]
 
 
-function fixup_general_elastic_tensor!{T}(c::Array{T, 4})
+function symmetrize_general_elastic_tensor!{T}(c::Array{T, 4})
     for l in 1:3, k in 1:3, j in 1:3, i in 1:3
         c_ijkl = c[i, j, k, l]
         c[j, i, k, l] = c_ijkl

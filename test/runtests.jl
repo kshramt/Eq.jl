@@ -16,6 +16,6 @@ end
 
 let
     for _ in 1:10
-        @test Eq.is_valid_general_elastic_tensor(Eq.fixup_general_elastic_tensor!(rand(3, 3, 3, 3) + 0.1))
+        @test Eq.is_valid_general_elastic_tensor(Eq.symmetrize_general_elastic_tensor!(rand(3, 3, 3, 3) + 0.1))
     end
 end
