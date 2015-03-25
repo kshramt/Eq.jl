@@ -62,6 +62,32 @@ rtf{T}(m::MomentTensor{T}) =
      fr(m) ft(m) ff(m)]
 
 
+macro _set_if_0_or_continue(x, y)
+    quote
+        if $x == 0
+            $x = $y
+        else
+            continue
+        end
+    end
+end
+
+
+@doc "Fill out zero components with its non-zero counterpart" ->
+function fill_out_general_elastic_tensor!{T}(c::Array{T, 4})
+    for l in 1:3, k in 1:3, j in 1:3, i in 1:3
+        @_set_if_0_or_continue c[i, j, k, l] c[k, l, i, j]
+        @_set_if_0_or_continue c[i, j, k, l] c[i, j, l, k]
+        @_set_if_0_or_continue c[i, j, k, l] c[l, k, i, j]
+        @_set_if_0_or_continue c[i, j, k, l] c[j, i, k, l]
+        @_set_if_0_or_continue c[i, j, k, l] c[k, l, j, i]
+        @_set_if_0_or_continue c[i, j, k, l] c[j, i, l, k]
+        @_set_if_0_or_continue c[i, j, k, l] c[l, k, j, i]
+    end
+    c
+end
+
+
 function symmetrize_general_elastic_tensor!{T}(c::Array{T, 4})
     for l in 1:3, k in 1:3, j in 1:3, i in 1:3
         c_ijkl = c[i, j, k, l]
