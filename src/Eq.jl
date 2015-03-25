@@ -89,4 +89,13 @@ function is_valid_general_elastic_tensor{T}(c::Array{T, 4})
     true
 end
 
+
+function isotropic_elastic_tensor(λ, μ)
+    c = zeros(3, 3, 3, 3)
+    for l in 1:3, k in 1:3, j in 1:3, i in 1:3
+        c[i, j, k, l] = λ*(i == j)*(k == l) + μ*((i == k)*(j == l) + (i == l)*(j == k))
+    end
+    c
+end
+
 end
