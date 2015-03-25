@@ -27,6 +27,9 @@ end
 Base.show(io::IO, x::MomentTensor) = Base.print(io, "xx:$(xx(x))\tyy:$(yy(x))\tzz:$(zz(x))\txy:$(xy(x))\txz:$(xz(x))\tyz:$(yz(x))")
 
 
+Mw(x::Number) = (log10(x) - 9.1)/1.5
+
+
 for op in (:+, :-)
     @eval ($op)(a::MomentTensor, b::MomentTensor) = MomentTensor($op(xx(a),
                                                                      xx(b)),
