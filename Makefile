@@ -8,15 +8,33 @@ export SHELLOPTS := pipefail:errexit:nounset:noclobber
 
 JULIA := julia
 
+
+sha256 = $(1:%=%.sha256)
+unsha256 = $(1:%.sha256=%)
+
+
 # Tasks
 .PHONY: all check
 all: ;
 check: test/runtests.jl.tested
 
-%.tested: %
+
+test/runtests.jl.tested: $(call sha256,src/Eq.jl)
+
+
+%.tested: %.sha256
 	$(JULIA) $<
 	touch $@
 
-# Files
 
-# Rules
+%.tested: %.sha256
+	$(JULIA) $(call unsha256,$<)
+	touch $@
+
+
+%.sha256: %.sha256.new
+	cmp -s $< $@ || cat $< >| $@
+
+
+%.sha256.new: %
+	sha256sum $< >| $@
