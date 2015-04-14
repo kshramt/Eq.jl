@@ -3,6 +3,16 @@ import Base.Test: @test, @test_throws, @test_approx_eq
 unshift!(LOAD_PATH, joinpath(dirname(@__FILE__), "..", "src"))
 import Eq
 
+
+let
+    @test_approx_eq Eq.Mw_of_m0(10^24.1) 10
+    @test_approx_eq Eq.Mw_of_m0(10^21.1) 8
+    for m0 in 0.1:0.11:10
+        @test_approx_eq Eq.m0_of_Mw(Eq.Mw_of_m0(m0)) m0
+    end
+end
+
+
 let
     m = Eq.MomentTensor(1, 2, 3, 4, 5, 6)
     @test_approx_eq Eq.xyz(m) [1 4 5

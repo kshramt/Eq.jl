@@ -1,5 +1,10 @@
 module Eq
 
+@doc """
+x: East
+y: North
+z: Up
+""" ->
 immutable MomentTensor{T}
     xx::T
     yy::T
@@ -27,7 +32,8 @@ end
 Base.show(io::IO, x::MomentTensor) = Base.print(io, "xx:$(xx(x))\tyy:$(yy(x))\tzz:$(zz(x))\txy:$(xy(x))\txz:$(xz(x))\tyz:$(yz(x))")
 
 
-Mw(x::Number) = (log10(x) - 9.1)/1.5
+Mw_of_m0(x) = (log10(x) - 9.1)/1.5
+m0_of_Mw(x) = 10^(1.5*x + 9.1)
 
 
 for op in (:+, :-)
