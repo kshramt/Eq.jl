@@ -11,8 +11,11 @@ JULIA := julia
 # Tasks
 .PHONY: all check
 all: ;
-check:
-	$(JULIA) test/runtests.jl
+check: test/runtests.jl.tested
+
+%.tested: %
+	$(JULIA) $<
+	touch $@
 
 # Files
 
