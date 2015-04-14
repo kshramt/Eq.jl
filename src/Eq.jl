@@ -31,28 +31,30 @@ Mw(x::Number) = (log10(x) - 9.1)/1.5
 
 
 for op in (:+, :-)
-    @eval ($op)(a::MomentTensor, b::MomentTensor) = MomentTensor($op(xx(a),
-                                                                     xx(b)),
-                                                                 $op(yy(a),
-                                                                     yy(b)),
-                                                                 $op(zz(a),
-                                                                     zz(b)),
-                                                                 $op(xy(a),
-                                                                     xy(b)),
-                                                                 $op(xz(a),
-                                                                     xz(b)),
-                                                                 $op(yz(a),
-                                                                     yz(b)))
+    @eval ($op)(a::MomentTensor, b::MomentTensor) =
+        MomentTensor($op(xx(a),
+                         xx(b)),
+                     $op(yy(a),
+                         yy(b)),
+                     $op(zz(a),
+                         zz(b)),
+                     $op(xy(a),
+                         xy(b)),
+                     $op(xz(a),
+                         xz(b)),
+                     $op(yz(a),
+                         yz(b)))
 end
 for op in (:*, :/)
-    @eval ($op)(m::MomentTensor, a::Number) = MomentTensor($op(xx(m), a),
-                                                           $op(yy(m), a),
-                                                           $op(zz(m), a),
-                                                           $op(xy(m), a),
-                                                           $op(xz(m), a),
-                                                           $op(yz(m), a))
+    @eval ($op)(m::MomentTensor, a::Number) =
+        MomentTensor($op(xx(m), a),
+                     $op(yy(m), a),
+                     $op(zz(m), a),
+                     $op(xy(m), a),
+                     $op(xz(m), a),
+                     $op(yz(m), a))
 end
-*(a::Number, m::MomentTensor) =*(m, a)
+*(a::Number, m::MomentTensor) = *(m, a)
 
 
 xyz{T}(m::MomentTensor{T}) =
