@@ -1,5 +1,7 @@
 module Eq
 
+
+import Base: +, -, *, /
 """
 x: East
 y: North
