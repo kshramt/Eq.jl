@@ -1,10 +1,10 @@
 module Eq
 
-@doc """
+"""
 x: East
 y: North
 z: Up
-""" ->
+"""
 immutable MomentTensor{T}
     xx::T
     yy::T
@@ -84,7 +84,7 @@ macro _set_if_0_or_continue(x, y)
 end
 
 
-@doc "Fill out zero components with its non-zero counterpart" ->
+"Fill out zero components with its non-zero counterpart"
 function fill_out_general_elastic_tensor!{T}(c::Array{T, 4})
     for l in 1:3, k in 1:3, j in 1:3, i in 1:3
         @_set_if_0_or_continue c[i, j, k, l] c[k, l, i, j]
